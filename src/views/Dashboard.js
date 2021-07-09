@@ -34,7 +34,7 @@ const Dashboard = ({
   );
 
   const sectionHeader = {
-    title: user ? 'Welcome Governor!' : 'Login With Magic link',
+    title: user ? 'Welcome Governor!' : 'Login or Create an Account',
     paragraph: '',
   };
 

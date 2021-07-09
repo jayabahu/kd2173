@@ -82,7 +82,7 @@ const Contributions = ({ user }) => {
   const formatNumber = (number) => parseFloat(number.replace(/,/g, ''));
 
   const numberWithCommas = (x) =>
-    x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    x === null ? '-' : x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   const onSubmit = async ({
     name,

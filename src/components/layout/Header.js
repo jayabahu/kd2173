@@ -139,7 +139,7 @@ const Header = ({
                       <>
                         <li>
                           <Link to="/dashboard" onClick={closeMenu}>
-                            Dashboard
+                            KVK 2 Contributions
                           </Link>
                         </li>
                         <li>
