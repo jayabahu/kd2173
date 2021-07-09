@@ -79,6 +79,8 @@ const Contributions = ({ user }) => {
     setIsLoaded(true);
   };
 
+  const formatNumber = (number) => parseFloat(number.replace(/,/g, ''));
+
   const onSubmit = async ({
     name,
     governor_id,
@@ -94,10 +96,10 @@ const Contributions = ({ user }) => {
         name,
         governor_id,
         alliance,
-        t4_kill_points_at_start: parseInt(t4_kill_points_at_start),
-        t5_kill_points_at_start: parseInt(t5_kill_points_at_start),
-        total_kill_points_at_start: parseInt(total_kill_points_at_start),
-        dead_count_at_start: parseInt(dead_count_at_start),
+        t4_kill_points_at_start: formatNumber(t4_kill_points_at_start),
+        t5_kill_points_at_start: formatNumber(t5_kill_points_at_start),
+        total_kill_points_at_start: formatNumber(total_kill_points_at_start),
+        dead_count_at_start: formatNumber(dead_count_at_start),
         user_id: user.id,
       })
       .single();
