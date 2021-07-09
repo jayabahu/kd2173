@@ -8,8 +8,8 @@ const propTypes = {
   value: PropTypes.string,
   rightLabel: PropTypes.string,
   disabled: PropTypes.bool,
-  checked: PropTypes.bool
-}
+  checked: PropTypes.bool,
+};
 
 const defaultProps = {
   children: null,
@@ -17,8 +17,8 @@ const defaultProps = {
   value: undefined,
   rightLabel: undefined,
   disabled: false,
-  checked: undefined
-}
+  checked: undefined,
+};
 
 const Switch = ({
   className,
@@ -30,11 +30,7 @@ const Switch = ({
   checked,
   ...props
 }) => {
-
-  const classes = classNames(
-    'form-switch',
-    className
-  );
+  const classes = classNames('form-switch', className);
 
   return (
     <label className={classes}>
@@ -46,18 +42,12 @@ const Switch = ({
         disabled={disabled}
         checked={checked}
       />
-      <span className="form-switch-icon"></span>
-      <span>
-        {children}
-      </span>
-      {rightLabel &&
-        <span>
-          {rightLabel}
-        </span>
-      }
+      <span className="form-switch-icon" />
+      <span>{children}</span>
+      {rightLabel && <span>{rightLabel}</span>}
     </label>
   );
-}
+};
 
 Switch.propTypes = propTypes;
 Switch.defaultProps = defaultProps;

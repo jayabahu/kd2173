@@ -1,12 +1,12 @@
 .hero {
-    min-height: 100vh;
-    background-color: #16171B;
-	background-image: url(../../../images/background.jpg);
-	background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center bottom; 
-    @media screen and (min-width: 1024px) {
-        display: flex;
-        align-items: center;
-    }   
+  min-height: 100vh;
+  background-color: #16171b;
+  background-image: url(../../../images/background.jpg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center bottom;
+  @media screen and (min-width: 1024px) {
+    display: flex;
+    align-items: center;
+  }
 }

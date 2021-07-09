@@ -5,7 +5,6 @@ import FeaturesTiles from '../components/sections/FeaturesTiles';
 import Testimonial from '../components/sections/Testimonial';
 
 const Home = () => {
-
   return (
     <>
       <Hero className="illustration-section-01" />
@@ -13,6 +12,6 @@ const Home = () => {
       <Testimonial topDivider />
     </>
   );
-}
+};
 
 export default Home;
