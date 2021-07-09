@@ -7,6 +7,7 @@ import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
+import { IS_DEVELOPMENT } from '../lib/constants';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -35,9 +36,15 @@ const Auth = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const onSubmit = async ({ email }) => {
-    const { user, error } = await supabase.auth.signIn({ email });
+    const { user, error } = await supabase.auth.signIn(
+      { email },
+      {
+        redirectTo: IS_DEVELOPMENT
+          ? 'http://localhost:3000/dashboard'
+          : 'https://rok2173.com/dashboard',
+      }
+    );
 
     if (error) {
       setAlert({ severity: 'error', text: error.message });
@@ -57,7 +64,7 @@ const Auth = () => {
     <Container className={classes.root}>
       {isCompleted ? (
         <Alert severity="success">
-          An email has been sent to you for verification!
+          Check your email inbox or spam folder to get the login link
         </Alert>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>

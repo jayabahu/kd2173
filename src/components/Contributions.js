@@ -81,6 +81,9 @@ const Contributions = ({ user }) => {
 
   const formatNumber = (number) => parseFloat(number.replace(/,/g, ''));
 
+  const numberWithCommas = (x) =>
+    x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
   const onSubmit = async ({
     name,
     governor_id,
@@ -161,16 +164,16 @@ const Contributions = ({ user }) => {
                   Pre KVK
                 </TableCell>
                 <TableCell align="right">
-                  {contribution.t4_kill_points_at_start}
+                  {numberWithCommas(contribution.t4_kill_points_at_start)}
                 </TableCell>
                 <TableCell align="right">
-                  {contribution.t5_kill_points_at_start}
+                  {numberWithCommas(contribution.t5_kill_points_at_start)}
                 </TableCell>
                 <TableCell align="right">
-                  {contribution.total_kill_points_at_start}
+                  {numberWithCommas(contribution.total_kill_points_at_start)}
                 </TableCell>
                 <TableCell align="right">
-                  {contribution.dead_count_at_start}
+                  {numberWithCommas(contribution.dead_count_at_start)}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -178,16 +181,17 @@ const Contributions = ({ user }) => {
                   Post KVK
                 </TableCell>
                 <TableCell align="right">
-                  {contribution.t4_kill_points_in_end || '-'}
+                  {numberWithCommas(contribution.t4_kill_points_in_end) || '-'}
                 </TableCell>
                 <TableCell align="right">
-                  {contribution.t5_kill_points_in_end || '-'}
+                  {numberWithCommas(contribution.t5_kill_points_in_end) || '-'}
                 </TableCell>
                 <TableCell align="right">
-                  {contribution.total_kill_points_in_end || '-'}
+                  {numberWithCommas(contribution.total_kill_points_in_end) ||
+                    '-'}
                 </TableCell>
                 <TableCell align="right">
-                  {contribution.dead_count_in_end || '-'}
+                  {numberWithCommas(contribution.dead_count_in_end) || '-'}
                 </TableCell>
               </TableRow>
             </TableBody>
