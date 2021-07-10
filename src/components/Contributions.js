@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/api';
 import {
+  Button,
   CircularProgress,
-  Container,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -15,15 +10,11 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import { useForm } from 'react-hook-form';
-import MuiAlert from '@material-ui/lab/Alert';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 
-import NumberField from './NumberField';
+import ModifyContribution from './ModifyContribution';
+import { Edit } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,19 +44,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 const Contributions = ({ user }) => {
   const [contribution, setContribution] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const [alert, setAlert] = useState(null);
+  const [onEdit, setOnEdit] = useState(false);
   const classes = useStyles();
 
   const fetchContribution = async () => {
@@ -78,46 +60,9 @@ const Contributions = ({ user }) => {
     }
     setIsLoaded(true);
   };
-
-  const formatNumber = (number) => parseFloat(number.replace(/,/g, ''));
-
-  const numberWithCommas = (x) =>
-    x === null ? '-' : x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-  const onSubmit = async ({
-    name,
-    governor_id,
-    alliance,
-    t4_kill_points_at_start,
-    t5_kill_points_at_start,
-    total_kill_points_at_start,
-    dead_count_at_start,
-  }) => {
-    let { data, error } = await supabase
-      .from('kvk2_contribution')
-      .insert({
-        name,
-        governor_id,
-        alliance,
-        t4_kill_points_at_start: formatNumber(t4_kill_points_at_start),
-        t5_kill_points_at_start: formatNumber(t5_kill_points_at_start),
-        total_kill_points_at_start: formatNumber(total_kill_points_at_start),
-        dead_count_at_start: formatNumber(dead_count_at_start),
-        user_id: user.id,
-      })
-      .single();
-    if (error) setAlert({ severity: 'error', text: error.message });
-    else {
-      setContribution(data);
-      setAlert(null);
-    }
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setAlert(null);
+  const numberWithCommas = (x) => {
+    console.log(x);
+    return !x ? '-' : x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
   useEffect(() => {
@@ -129,7 +74,7 @@ const Contributions = ({ user }) => {
     return <CircularProgress />;
   }
 
-  if (contribution) {
+  if (contribution && !onEdit) {
     return (
       <div className={classes.userRoot}>
         <div>
@@ -146,6 +91,16 @@ const Contributions = ({ user }) => {
             {contribution.alliance}
           </div>
         </div>
+        <br />
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<Edit />}
+          onClick={() => setOnEdit(!onEdit)}
+        >
+          Edit
+        </Button>
+        <br />
         <br />
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
@@ -202,110 +157,12 @@ const Contributions = ({ user }) => {
   }
 
   return (
-    <Container maxWidth="sm" className={classes.root}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          {...register('name', { required: true })}
-          placeholder="Name"
-          label="Name"
-          error={errors.name}
-          alert={errors.name ? 'Name is required' : ''}
-        />
-        <TextField
-          {...register('governor_id', { required: true })}
-          placeholder="Governor ID"
-          label="Governor ID"
-          error={errors.governor_id}
-          alert={errors.governor_id ? 'Governor ID is required' : ''}
-        />
-        <FormControl
-          className={classes.formControl}
-          error={errors.alliance !== undefined}
-        >
-          <InputLabel id="alliance">Alliance</InputLabel>
-          <Select
-            labelId="alliance"
-            {...register('alliance', { required: true })}
-          >
-            <MenuItem value="CL">CL</MenuItem>
-            <MenuItem value="EngS">EngS</MenuItem>
-            <MenuItem value="EngX">EngX</MenuItem>
-            <MenuItem value="PL">PL</MenuItem>
-            <MenuItem value="SD">SD</MenuItem>
-            <MenuItem value="VN">VN</MenuItem>
-            <MenuItem value="other">Other</MenuItem>
-          </Select>
-          {errors.alliance ? (
-            <FormHelperText>Alliance is required.</FormHelperText>
-          ) : null}
-        </FormControl>
-        <TextField
-          {...register('t4_kill_points_at_start', { required: true })}
-          placeholder="T4 Kill Points"
-          label="T4 Kill Points"
-          error={errors.t4_kill_points_at_start}
-          alert={
-            errors.t4_kill_points_at_start ? 'T4 Kill Points is required' : ''
-          }
-          helperText="Pre-KVK T4 Kill Points"
-          InputProps={{
-            inputComponent: NumberField,
-          }}
-        />
-        <TextField
-          {...register('t5_kill_points_at_start', { required: true })}
-          placeholder="T5 Kill Points"
-          label="T5 Kill Points"
-          error={errors.t5_kill_points_at_start}
-          alert={
-            errors.t5_kill_points_at_start ? 'T4 Kill Points is required' : ''
-          }
-          helperText="Pre-KVK T5 Kill Points"
-          InputProps={{
-            inputComponent: NumberField,
-          }}
-        />
-        <TextField
-          {...register('total_kill_points_at_start', { required: true })}
-          placeholder="Kill Points"
-          label="Kill Points"
-          error={errors.total_kill_points_at_start}
-          alert={
-            errors.total_kill_points_at_start ? 'Kill Points is required' : ''
-          }
-          helperText="Pre-KVK Kill Points"
-          InputProps={{
-            inputComponent: NumberField,
-          }}
-        />
-        <TextField
-          {...register('dead_count_at_start', { required: true })}
-          placeholder="Dead Count"
-          label="Dead Count"
-          error={errors.dead_count_at_start}
-          alert={errors.dead_count_at_start ? 'Dead Count is required' : ''}
-          helperText="Pre-KVK Dead Count"
-          InputProps={{
-            inputComponent: NumberField,
-          }}
-        />
-        <Button
-          style={{ width: '100%' }}
-          variant="contained"
-          color="primary"
-          type="submit"
-        >
-          Submit
-        </Button>
-        {alert && (
-          <Snackbar open={true} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity={alert.severity}>
-              {alert.text}
-            </Alert>
-          </Snackbar>
-        )}
-      </form>
-    </Container>
+    <ModifyContribution
+      user={user}
+      setContribution={setContribution}
+      contribution={contribution}
+      setOnEdit={setOnEdit}
+    />
   );
 };
 
