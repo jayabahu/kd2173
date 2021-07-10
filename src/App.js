@@ -17,6 +17,7 @@ import ForgotPassword from './views/ForgotPassword';
 import ResetPassword from './views/ResetPassword';
 import Alliances from './views/Alliances';
 import Rules from './views/Rules';
+import Newsletters from './views/Newsletters';
 
 import { GA_CODE } from './lib/constants';
 
@@ -87,6 +88,12 @@ const App = () => {
               exact
               path="/rules"
               component={Rules}
+              layout={LayoutDefault}
+            />
+            <AppRoute
+              exact
+              path="/newsletters"
+              component={Newsletters}
               layout={LayoutDefault}
             />
           </Switch>

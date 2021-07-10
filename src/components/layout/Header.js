@@ -150,6 +150,11 @@ const Header = ({
                         Kingdom Rules
                       </Link>
                     </li>
+                    <li>
+                      <Link to="/newsletters" onClick={closeMenu}>
+                        Newsletters
+                      </Link>
+                    </li>
                     {user && (
                       <>
                         <li>
