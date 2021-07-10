@@ -135,20 +135,6 @@ const Header = ({
                         Home
                       </Link>
                     </li>
-                    {user && (
-                      <>
-                        <li>
-                          <Link to="/dashboard" onClick={closeMenu}>
-                            KVK 2 Contributions
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/" onClick={() => supabase.auth.signOut()}>
-                            Logout
-                          </Link>
-                        </li>
-                      </>
-                    )}
                     <li>
                       <Link to="/our-story" onClick={closeMenu}>
                         Our Story
@@ -164,6 +150,20 @@ const Header = ({
                         Kingdom Rules
                       </Link>
                     </li>
+                    {user && (
+                      <>
+                        <li>
+                          <Link to="/dashboard" onClick={closeMenu}>
+                            KVK 2 Contributions
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/" onClick={() => supabase.auth.signOut()}>
+                            Logout
+                          </Link>
+                        </li>
+                      </>
+                    )}
                   </ul>
                 </div>
               </nav>
