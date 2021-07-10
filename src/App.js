@@ -13,6 +13,9 @@ import LayoutDefault from './layouts/LayoutDefault';
 import Home from './views/Home';
 import Story from './views/Story';
 import Dashboard from './views/Dashboard';
+import ForgotPassword from './views/ForgotPassword';
+import ResetPassword from './views/ResetPassword';
+
 import { GA_CODE } from './lib/constants';
 
 // Initialize Google Analytics
@@ -58,6 +61,18 @@ const App = () => {
               exact
               path="/dashboard"
               component={Dashboard}
+              layout={LayoutDefault}
+            />
+            <AppRoute
+              exact
+              path="/forgot-password"
+              component={ForgotPassword}
+              layout={LayoutDefault}
+            />
+            <AppRoute
+              exact
+              path="/reset-password"
+              component={ResetPassword}
               layout={LayoutDefault}
             />
           </Switch>
