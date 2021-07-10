@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import SectionHeader from './partials/SectionHeader';
 import Image from '../elements/Image';
 import Button from '../elements/Button';
+import { Link } from 'react-router-dom';
 
 const FeaturesTiles = ({
   className,
@@ -37,8 +38,7 @@ const FeaturesTiles = ({
 
   const sectionHeader = {
     title: 'What you need to know about our kingdom',
-    paragraph:
-      'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum — semper quis lectus nulla at volutpat diam ut venenatis.',
+    paragraph: '',
   };
 
   return (
@@ -62,17 +62,10 @@ const FeaturesTiles = ({
                 <div className="features-tiles-item-content">
                   <h4 className="mt-0 mb-8">Rules</h4>
                   <p className="m-0 text-sm">
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat.
+                    Rules you have to follow in our kingdom.
                   </p>
                   <br />
-                  <Button
-                    tag="a"
-                    color="primary"
-                    wideMobile
-                    href="https://cruip.com/"
-                  >
+                  <Button tag={Link} color="primary" wideMobile to="/rules">
                     Read More
                   </Button>
                 </div>
@@ -97,17 +90,10 @@ const FeaturesTiles = ({
                 <div className="features-tiles-item-content">
                   <h4 className="mt-0 mb-8">Alliances</h4>
                   <p className="m-0 text-sm">
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat.
+                    Origin stories and intro to our top alliances.
                   </p>
                   <br />
-                  <Button
-                    tag="a"
-                    color="primary"
-                    wideMobile
-                    href="https://cruip.com/"
-                  >
+                  <Button tag={Link} color="primary" wideMobile to="/alliances">
                     Read More
                   </Button>
                 </div>
@@ -132,19 +118,17 @@ const FeaturesTiles = ({
                 <div className="features-tiles-item-content">
                   <h4 className="mt-0 mb-8">Immigrations</h4>
                   <p className="m-0 text-sm">
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat.
+                    Immigrations are currently closed. Please check back later.
                   </p>
-                  <br />
-                  <Button
-                    tag="a"
-                    color="primary"
-                    wideMobile
-                    href="https://cruip.com/"
-                  >
-                    Read More
-                  </Button>
+                  {/*<br />*/}
+                  {/*<Button*/}
+                  {/*  tag="a"*/}
+                  {/*  color="primary"*/}
+                  {/*  wideMobile*/}
+                  {/*  href="https://cruip.com/"*/}
+                  {/*>*/}
+                  {/*  Read More*/}
+                  {/*</Button>*/}
                 </div>
               </div>
             </div>

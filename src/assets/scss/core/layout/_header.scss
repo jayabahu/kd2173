@@ -60,7 +60,7 @@
     @include anchor-aspect(header);
     @include font-weight(header-link);
     text-transform: $link-header--transform;
-    padding: 0 $header-nav--padding-h;
+    padding-left: $header-nav--padding-h;
 
     .invert-color & {
       @include anchor-aspect(header, inverse);

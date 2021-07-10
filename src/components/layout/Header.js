@@ -130,7 +130,7 @@ const Header = ({
                       navPosition && `header-nav-${navPosition}`
                     )}
                   >
-                    <li className="show-on-mobile">
+                    <li>
                       <Link to="/" onClick={closeMenu}>
                         Home
                       </Link>
@@ -149,9 +149,19 @@ const Header = ({
                         </li>
                       </>
                     )}
-                    <li className="show-on-mobile">
+                    <li>
                       <Link to="/our-story" onClick={closeMenu}>
                         Our Story
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/alliances" onClick={closeMenu}>
+                        Alliances
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/rules" onClick={closeMenu}>
+                        Kingdom Rules
                       </Link>
                     </li>
                   </ul>

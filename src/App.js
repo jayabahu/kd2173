@@ -15,6 +15,8 @@ import Story from './views/Story';
 import Dashboard from './views/Dashboard';
 import ForgotPassword from './views/ForgotPassword';
 import ResetPassword from './views/ResetPassword';
+import Alliances from './views/Alliances';
+import Rules from './views/Rules';
 
 import { GA_CODE } from './lib/constants';
 
@@ -73,6 +75,18 @@ const App = () => {
               exact
               path="/reset-password"
               component={ResetPassword}
+              layout={LayoutDefault}
+            />
+            <AppRoute
+              exact
+              path="/alliances"
+              component={Alliances}
+              layout={LayoutDefault}
+            />
+            <AppRoute
+              exact
+              path="/rules"
+              component={Rules}
               layout={LayoutDefault}
             />
           </Switch>
