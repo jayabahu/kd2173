@@ -1,9 +1,18 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+
 import SectionHeader from './partials/SectionHeader';
 import Image from '../elements/Image';
 import Button from '../elements/Button';
-import { Link } from 'react-router-dom';
+
+const useStyles = makeStyles((theme) => ({
+  videoPlaylist: {
+    maxWidth: '700px',
+    margin: '0px auto',
+  },
+}));
 
 const FeaturesTiles = ({
   className,
@@ -35,6 +44,8 @@ const FeaturesTiles = ({
     'tiles-wrap center-content',
     pushLeft && 'push-left'
   );
+
+  const classes = useStyles();
 
   const sectionHeader = {
     title: 'What you need to know about our kingdom',
@@ -132,6 +143,26 @@ const FeaturesTiles = ({
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div className={innerClasses}>
+          <SectionHeader
+            data={{
+              title: 'Our KVK Season 2 Journey',
+              paragraph: '',
+            }}
+            className="center-content"
+          />
+          <div className={classes.videoPlaylist}>
+            <iframe
+              width="100%"
+              height="400"
+              src="https://www.youtube.com/embed/videoseries?list=PLEHJV9VELM5s9fk3twyUvo3HOcv6_wS8C"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
         </div>
       </div>
