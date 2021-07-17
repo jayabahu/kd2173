@@ -86,6 +86,46 @@ const Alliances = ({
               <CardActionArea>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2">
+                    [EngS] Legion de Odin
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    Everything started in the year 2170 after Lilith, with the
+                    wish of the Viking Samuel “El Intrepido” and various
+                    Vikings. They sought to unify every Hispanic town onto one
+                    banner, Legion of Odin. We receive the blessing of Odin and
+                    the guidance of the very hand of Tyr started our Battle.
+                    <br />
+                    Over time, evil came to our lands showing us the future
+                    coming of Ragnarok. in a magnificent battle, our kingdom was
+                    destroyed by the hands of tyrants drunk by power. We lost
+                    various of our Vikings in the trajectory, but they are
+                    always remembered in our memories.
+                    <br />
+                    We sail to new waters looking for new lands, riches and
+                    great wars guided by our father Odin. We find the great
+                    kingdom called Osani in the year 2173 in where we met Floki
+                    and his great fleet “Imperio Prusiano” he welcomes us with
+                    open arms. That way started our great history in an unknown
+                    kingdom, with great lands, new adventure and new allies.
+                    <br />
+                    Always in seek of a battle that we can die fighting with
+                    ferocity and valour meanwhile with hear sword clashing and
+                    seeing the blood of our enemies fall. We will keep going
+                    until we can’t anymore and reach our dreams of drinking
+                    hydromel with our fallen comrades in the eternal halls of
+                    Valhall.
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
                     [EngX] Engine
                   </Typography>
                   <Typography
