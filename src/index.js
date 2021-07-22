@@ -2,12 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-//import './App.css';
 import './assets/scss/style.scss';
+
+import { SENTRY_DSN } from './lib/constants';
+
+Sentry.init({
+  dsn: SENTRY_DSN,
+  integrations: [new Integrations.BrowserTracing()],
+  tracesSampleRate: 1.0,
+});
 
 const history = createBrowserHistory();
 

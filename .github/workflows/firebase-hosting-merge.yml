@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: yarn
-      - run: REACT_APP_SUPABASE_URL=${{ secrets.SUPABASE_URL }} REACT_APP_SUPABASE_KEY=${{ secrets.SUPABASE_KEY }} REACT_APP_BLOG_ID=${{ secrets.BLOG_ID }} REACT_APP_GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} yarn build
+      - run: REACT_APP_SUPABASE_URL=${{ secrets.SUPABASE_URL }} REACT_APP_SUPABASE_KEY=${{ secrets.SUPABASE_KEY }} REACT_APP_BLOG_ID=${{ secrets.BLOG_ID }} REACT_APP_GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} REACT_APP_SENTRY_DSN=${{ secrets.SENTRY_DSN }} yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
