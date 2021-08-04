@@ -12,17 +12,23 @@ import './assets/scss/style.scss';
 
 import { SENTRY_DSN } from './lib/constants';
 
+const history = createBrowserHistory();
+
 Sentry.init({
   dsn: SENTRY_DSN,
-  integrations: [new Integrations.BrowserTracing()],
+  integrations: [
+    new Integrations.BrowserTracing({
+      routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
+    }),
+  ],
   tracesSampleRate: 1.0,
 });
 
-const history = createBrowserHistory();
-
 ReactDOM.render(
   <Router history={history}>
-    <App />
+    <Sentry.ErrorBoundary fallback={'An error has occurred'}>
+      <App />
+    </Sentry.ErrorBoundary>
   </Router>,
   document.getElementById('root')
 );
