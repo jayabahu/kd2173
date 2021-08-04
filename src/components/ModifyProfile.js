@@ -14,8 +14,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { useForm, Controller } from 'react-hook-form';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
-
-import NumberField from './NumberField';
+import { MODAL_TYPE } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,20 +48,16 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const ModifyContribution = ({
+const ModifyProfile = ({
   user,
   setContribution,
   contribution,
-  setOnEdit,
+  setActiveModal,
 }) => {
   const defaultValues = contribution || {
     name: '',
     governor_id: '',
     alliance: '',
-    t4_kill_points_at_start: '',
-    t5_kill_points_at_start: '',
-    total_kill_points_at_start: '',
-    dead_count_at_start: '',
   };
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
@@ -73,27 +68,12 @@ const ModifyContribution = ({
   const [alert, setAlert] = useState(null);
   const classes = useStyles();
 
-  const formatNumber = (number) =>
-    typeof number === 'string' ? parseFloat(number.replace(/,/g, '')) : number;
-
-  const onSubmit = async ({
-    name,
-    governor_id,
-    alliance,
-    t4_kill_points_at_start,
-    t5_kill_points_at_start,
-    total_kill_points_at_start,
-    dead_count_at_start,
-  }) => {
+  const onSubmit = async ({ name, governor_id, alliance }) => {
     setIsSubmitting(true);
     const inputs = {
       name,
       governor_id,
       alliance,
-      t4_kill_points_at_start: formatNumber(t4_kill_points_at_start),
-      t5_kill_points_at_start: formatNumber(t5_kill_points_at_start),
-      total_kill_points_at_start: formatNumber(total_kill_points_at_start),
-      dead_count_at_start: formatNumber(dead_count_at_start),
       user_id: user.id,
     };
     if (contribution) {
@@ -119,7 +99,7 @@ const ModifyContribution = ({
       }
     }
     setIsSubmitting(false);
-    setOnEdit(false);
+    setActiveModal(MODAL_TYPE.DEFAULT);
   };
 
   const handleClose = (event, reason) => {
@@ -188,93 +168,6 @@ const ModifyContribution = ({
             <FormHelperText>Alliance is required.</FormHelperText>
           ) : null}
         </FormControl>
-        <Controller
-          name="t4_kill_points_at_start"
-          control={control}
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              value={value}
-              onChange={onChange}
-              placeholder="T4 Kill Points"
-              label="T4 Kill Points"
-              error={errors.t4_kill_points_at_start}
-              alert={
-                errors.t4_kill_points_at_start
-                  ? 'T4 Kill Points is required'
-                  : ''
-              }
-              helperText="Pre-KVK T4 Kill Points"
-              InputProps={{
-                inputComponent: NumberField,
-              }}
-            />
-          )}
-        />
-        <Controller
-          name="t5_kill_points_at_start"
-          control={control}
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              value={value}
-              onChange={onChange}
-              label="T5 Kill Points"
-              error={errors.t5_kill_points_at_start}
-              alert={
-                errors.t5_kill_points_at_start
-                  ? 'T4 Kill Points is required'
-                  : ''
-              }
-              helperText="Pre-KVK T5 Kill Points"
-              InputProps={{
-                inputComponent: NumberField,
-              }}
-            />
-          )}
-        />
-        <Controller
-          name="total_kill_points_at_start"
-          control={control}
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              value={value}
-              onChange={onChange}
-              placeholder="Kill Points"
-              label="Kill Points"
-              error={errors.total_kill_points_at_start}
-              alert={
-                errors.total_kill_points_at_start
-                  ? 'Kill Points is required'
-                  : ''
-              }
-              helperText="Pre-KVK Kill Points"
-              InputProps={{
-                inputComponent: NumberField,
-              }}
-            />
-          )}
-        />
-        <Controller
-          name="dead_count_at_start"
-          control={control}
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              value={value}
-              onChange={onChange}
-              placeholder="Dead Count"
-              label="Dead Count"
-              error={errors.dead_count_at_start}
-              alert={errors.dead_count_at_start ? 'Dead Count is required' : ''}
-              helperText="Pre-KVK Dead Count"
-              InputProps={{
-                inputComponent: NumberField,
-              }}
-            />
-          )}
-        />
         <Button
           style={{ width: '100%' }}
           variant="contained"
@@ -296,4 +189,4 @@ const ModifyContribution = ({
   );
 };
 
-export default ModifyContribution;
+export default ModifyProfile;

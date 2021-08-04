@@ -13,8 +13,10 @@ import {
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 
-import ModifyContribution from './ModifyContribution';
-import { Edit } from '@material-ui/icons';
+import ModifyProfile from './ModifyProfile';
+import AddContribution from './AddContribution';
+import { Edit, Add } from '@material-ui/icons';
+import { MODAL_TYPE } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,13 +43,16 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTableCell-root': {
       padding: '16px',
     },
+    '& .MuiButtonBase-root': {
+      marginRight: '20px',
+    },
   },
 }));
 
 const Contributions = ({ user }) => {
   const [contribution, setContribution] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [onEdit, setOnEdit] = useState(false);
+  const [activeModal, setActiveModal] = useState(MODAL_TYPE.DEFAULT);
   const classes = useStyles();
 
   const fetchContribution = async () => {
@@ -74,96 +79,123 @@ const Contributions = ({ user }) => {
     return <CircularProgress />;
   }
 
-  if (contribution && !onEdit) {
-    return (
-      <div className={classes.userRoot}>
-        <div>
-          <div>
-            <strong>Name:&nbsp;</strong>
-            {contribution.name}
+  switch (activeModal) {
+    case MODAL_TYPE.EDIT:
+      return (
+        <ModifyProfile
+          user={user}
+          setContribution={setContribution}
+          contribution={contribution}
+          setActiveModal={setActiveModal}
+        />
+      );
+    case MODAL_TYPE.ADD:
+      return (
+        <AddContribution
+          user={user}
+          setContribution={setContribution}
+          contribution={contribution}
+          setActiveModal={setActiveModal}
+        />
+      );
+    default:
+      if (contribution) {
+        return (
+          <div className={classes.userRoot}>
+            <div>
+              <div>
+                <strong>Name:&nbsp;</strong>
+                {contribution.name}
+              </div>
+              <div>
+                <strong>Governor ID:&nbsp;</strong>
+                {contribution.governor_id}
+              </div>
+              <div>
+                <strong>Alliance:&nbsp;</strong>
+                {contribution.alliance}
+              </div>
+            </div>
+            <br />
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Edit />}
+              onClick={() => setActiveModal(MODAL_TYPE.EDIT)}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              startIcon={<Add />}
+              onClick={() => setActiveModal(MODAL_TYPE.ADD)}
+            >
+              Add Contribution
+            </Button>
+            <br />
+            <br />
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell />
+                    <TableCell align="right">T4 Kill Points</TableCell>
+                    <TableCell align="right">T5 Kill Points</TableCell>
+                    <TableCell align="right">Kill Points</TableCell>
+                    <TableCell align="right">Dead Count</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      Pre KVK
+                    </TableCell>
+                    <TableCell align="right">
+                      {numberWithCommas(contribution.t4_kill_points_at_start)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {numberWithCommas(contribution.t5_kill_points_at_start)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {numberWithCommas(
+                        contribution.total_kill_points_at_start
+                      )}
+                    </TableCell>
+                    <TableCell align="right">
+                      {numberWithCommas(contribution.dead_count_at_start)}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      Current
+                    </TableCell>
+                    <TableCell align="right">
+                      {numberWithCommas(contribution.t4_kill_points_in_end) ||
+                        '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {numberWithCommas(contribution.t5_kill_points_in_end) ||
+                        '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {numberWithCommas(
+                        contribution.total_kill_points_in_end
+                      ) || '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {numberWithCommas(contribution.dead_count_in_end) || '-'}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
           </div>
-          <div>
-            <strong>Governor ID:&nbsp;</strong>
-            {contribution.governor_id}
-          </div>
-          <div>
-            <strong>Alliance:&nbsp;</strong>
-            {contribution.alliance}
-          </div>
-        </div>
-        <br />
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<Edit />}
-          onClick={() => setOnEdit(!onEdit)}
-        >
-          Edit
-        </Button>
-        <br />
-        <br />
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell />
-                <TableCell align="right">T4 Kill Points</TableCell>
-                <TableCell align="right">T5 Kill Points</TableCell>
-                <TableCell align="right">Kill Points</TableCell>
-                <TableCell align="right">Dead Count</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  Pre KVK
-                </TableCell>
-                <TableCell align="right">
-                  {numberWithCommas(contribution.t4_kill_points_at_start)}
-                </TableCell>
-                <TableCell align="right">
-                  {numberWithCommas(contribution.t5_kill_points_at_start)}
-                </TableCell>
-                <TableCell align="right">
-                  {numberWithCommas(contribution.total_kill_points_at_start)}
-                </TableCell>
-                <TableCell align="right">
-                  {numberWithCommas(contribution.dead_count_at_start)}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  Post KVK
-                </TableCell>
-                <TableCell align="right">
-                  {numberWithCommas(contribution.t4_kill_points_in_end) || '-'}
-                </TableCell>
-                <TableCell align="right">
-                  {numberWithCommas(contribution.t5_kill_points_in_end) || '-'}
-                </TableCell>
-                <TableCell align="right">
-                  {numberWithCommas(contribution.total_kill_points_in_end) ||
-                    '-'}
-                </TableCell>
-                <TableCell align="right">
-                  {numberWithCommas(contribution.dead_count_in_end) || '-'}
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    );
+        );
+      } else {
+        return null;
+      }
   }
-
-  return (
-    <ModifyContribution
-      user={user}
-      setContribution={setContribution}
-      contribution={contribution}
-      setOnEdit={setOnEdit}
-    />
-  );
 };
 
 export default Contributions;
