@@ -141,7 +141,7 @@ const AddContribution = ({
               alert={
                 errors.t4_kill_points_in_end ? 'T4 Kill Points is required' : ''
               }
-              helperText="Pre-KVK T4 Kill Points"
+              helperText="Current T4 Kill Points"
               InputProps={{
                 inputComponent: NumberField,
               }}
@@ -161,7 +161,7 @@ const AddContribution = ({
               alert={
                 errors.t5_kill_points_in_end ? 'T4 Kill Points is required' : ''
               }
-              helperText="Pre-KVK T5 Kill Points"
+              helperText="Current T5 Kill Points"
               InputProps={{
                 inputComponent: NumberField,
               }}
@@ -182,7 +182,7 @@ const AddContribution = ({
               alert={
                 errors.total_kill_points_in_end ? 'Kill Points is required' : ''
               }
-              helperText="Pre-KVK Kill Points"
+              helperText="Current Kill Points"
               InputProps={{
                 inputComponent: NumberField,
               }}
@@ -201,7 +201,7 @@ const AddContribution = ({
               label="Dead Count"
               error={errors.dead_count_in_end}
               alert={errors.dead_count_in_end ? 'Dead Count is required' : ''}
-              helperText="Pre-KVK Dead Count"
+              helperText="Current Dead Count"
               InputProps={{
                 inputComponent: NumberField,
               }}
