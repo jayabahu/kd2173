@@ -155,6 +155,11 @@ const Header = ({
                         Newsletters
                       </Link>
                     </li>
+                    <li>
+                      <Link to="/pass-rewards" onClick={closeMenu}>
+                        Pass Rewards
+                      </Link>
+                    </li>
                     {user && (
                       <>
                         <li>
