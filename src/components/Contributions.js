@@ -12,11 +12,13 @@ import {
 } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import { Edit, Add } from '@material-ui/icons';
 
 import ModifyProfile from './ModifyProfile';
 import AddContribution from './AddContribution';
-import { Edit, Add } from '@material-ui/icons';
+
 import { MODAL_TYPE } from '../constants';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,7 +68,6 @@ const Contributions = ({ user }) => {
     setIsLoaded(true);
   };
   const numberWithCommas = (x) => {
-    console.log(x);
     return !x ? '-' : x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
@@ -94,7 +95,6 @@ const Contributions = ({ user }) => {
         <AddContribution
           user={user}
           setContribution={setContribution}
-          contribution={contribution}
           setActiveModal={setActiveModal}
         />
       );
@@ -193,7 +193,12 @@ const Contributions = ({ user }) => {
           </div>
         );
       } else {
-        return null;
+        return (
+          <Alert severity="error">
+            Unfortunately you have not added pre-kvk data in this account.
+            Please talk to your alliance officers.
+          </Alert>
+        );
       }
   }
 };

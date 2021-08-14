@@ -1,46 +1,29 @@
 import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+
 import Logo from './partials/Logo';
+
 import { supabase } from '../../lib/api';
-
-const propTypes = {
-  navPosition: PropTypes.string,
-  hideNav: PropTypes.bool,
-  hideSignin: PropTypes.bool,
-  bottomOuterDivider: PropTypes.bool,
-  bottomDivider: PropTypes.bool,
-};
-
-const defaultProps = {
-  navPosition: '',
-  hideNav: false,
-  hideSignin: false,
-  bottomOuterDivider: false,
-  bottomDivider: false,
-};
 
 const Header = ({
   className,
   navPosition,
   hideNav,
-  hideSignin,
   bottomOuterDivider,
   bottomDivider,
   ...props
 }) => {
   const [isActive, setIsActive] = useState(false);
-  const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    setIsLoggedIn(false);
     const session = supabase.auth.session();
-    setUser(session?.user ?? null);
-
+    if (session?.user) setIsLoggedIn(true);
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        const currentUser = session?.user;
-        setUser(currentUser ?? null);
+        if (session?.user) setIsLoggedIn(true);
       }
     );
 
@@ -49,7 +32,8 @@ const Header = ({
         authListener.unsubscribe();
       }
     };
-  }, [user]);
+  }, []);
+
   const nav = useRef(null);
   const hamburger = useRef(null);
 
@@ -156,11 +140,11 @@ const Header = ({
                       </Link>
                     </li>
                     <li>
-                      <Link to="/pass-rewards" onClick={closeMenu}>
-                        Pass Rewards
+                      <Link to="/dashboard" onClick={closeMenu}>
+                        Dashboard
                       </Link>
                     </li>
-                    {user && (
+                    {isLoggedIn && (
                       <>
                         <li>
                           <Link to="/dashboard" onClick={closeMenu}>
@@ -184,8 +168,5 @@ const Header = ({
     </header>
   );
 };
-
-Header.propTypes = propTypes;
-Header.defaultProps = defaultProps;
 
 export default Header;

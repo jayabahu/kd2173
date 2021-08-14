@@ -14,6 +14,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { useForm, Controller } from 'react-hook-form';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
+
 import { MODAL_TYPE } from '../constants';
 
 const useStyles = makeStyles((theme) => ({

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { supabase } from '../lib/api';
 import { Container } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -9,7 +8,11 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 
 import NumberField from './NumberField';
+import ImageUpload from './ImageUpload';
+
 import { MODAL_TYPE } from '../constants';
+
+import { supabase } from '../lib/api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,18 +40,31 @@ const useStyles = makeStyles((theme) => ({
       padding: '16px',
     },
   },
+  imageControl: {
+    marginBottom: '20px',
+    '& > img': {
+      marginBottom: '20px',
+    },
+    '& > span': {
+      display: 'block',
+      marginTop: '-20px',
+      marginBottom: '10px',
+      fontSize: '16px',
+    },
+    '& > label': {
+      display: 'block',
+      marginBottom: '20px',
+      fontSize: '18px',
+      color: '#aeafb0',
+    },
+  },
 }));
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const AddContribution = ({
-  user,
-  setContribution,
-  setActiveModal,
-  contribution,
-}) => {
+const AddContribution = ({ user, setContribution, setActiveModal }) => {
   const defaultValues = {
     t4_kill_points_in_end: '',
     t5_kill_points_in_end: '',
@@ -56,6 +72,9 @@ const AddContribution = ({
     dead_count_in_end: '',
   };
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [killPointScreenshot, setKillPointScreenshot] = useState(null);
+  const [otherKingdomKillsScreenshot, setOtherKingdomKillsScreenshot] =
+    useState(null);
   const {
     control,
     handleSubmit,
@@ -73,13 +92,11 @@ const AddContribution = ({
     total_kill_points_in_end,
     dead_count_in_end,
   }) => {
+    if (!killPointScreenshot || !otherKingdomKillsScreenshot) {
+      setAlert({ severity: 'error', text: 'Screenshots are required.' });
+      return;
+    }
     setIsSubmitting(true);
-    const {
-      t4_kill_points_at_start,
-      t5_kill_points_at_start,
-      total_kill_points_at_start,
-      dead_count_at_start,
-    } = contribution;
     let { data, error } = await supabase
       .from('kvk2_contribution')
       .update({
@@ -87,13 +104,8 @@ const AddContribution = ({
         t5_kill_points_in_end: formatNumber(t5_kill_points_in_end),
         total_kill_points_in_end: formatNumber(total_kill_points_in_end),
         dead_count_in_end: formatNumber(dead_count_in_end),
-        t4_kill_points_diff:
-          formatNumber(t4_kill_points_in_end) - t4_kill_points_at_start,
-        t5_kill_points_diff:
-          formatNumber(t5_kill_points_in_end) - t5_kill_points_at_start,
-        total_kill_points_diff:
-          formatNumber(total_kill_points_in_end) - total_kill_points_at_start,
-        dead_count_diff: formatNumber(dead_count_in_end) - dead_count_at_start,
+        kill_point_screenshot: killPointScreenshot,
+        other_kd_kills_screenshot: otherKingdomKillsScreenshot,
       })
       .eq('user_id', user.id)
       .single();
@@ -105,6 +117,8 @@ const AddContribution = ({
         total_kill_points: formatNumber(total_kill_points_in_end),
         dead_count: formatNumber(dead_count_in_end),
         user_id: user.id,
+        kill_point_screenshot: killPointScreenshot,
+        other_kd_kills_screenshot: otherKingdomKillsScreenshot,
       })
       .single();
     if (error) setAlert({ severity: 'error', text: error.message });
@@ -127,6 +141,8 @@ const AddContribution = ({
   return (
     <Container maxWidth="sm" className={classes.root}>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <span>Guide Image</span>
+        <img src={require('../assets/images/guide.jpg')} alt="Guide" />
         <Controller
           name="t4_kill_points_in_end"
           control={control}
@@ -141,7 +157,7 @@ const AddContribution = ({
               alert={
                 errors.t4_kill_points_in_end ? 'T4 Kill Points is required' : ''
               }
-              helperText="Current T4 Kill Points"
+              helperText="Current T4 Kill Points (1 in guide image)"
               InputProps={{
                 inputComponent: NumberField,
               }}
@@ -157,11 +173,12 @@ const AddContribution = ({
               value={value}
               onChange={onChange}
               label="T5 Kill Points"
+              placeholder="T5 Kill Points"
               error={errors.t5_kill_points_in_end}
               alert={
                 errors.t5_kill_points_in_end ? 'T4 Kill Points is required' : ''
               }
-              helperText="Current T5 Kill Points"
+              helperText="Current T5 Kill Points  (2 in guide image)"
               InputProps={{
                 inputComponent: NumberField,
               }}
@@ -182,7 +199,7 @@ const AddContribution = ({
               alert={
                 errors.total_kill_points_in_end ? 'Kill Points is required' : ''
               }
-              helperText="Current Kill Points"
+              helperText="Current Kill Points  (3 in guide image)"
               InputProps={{
                 inputComponent: NumberField,
               }}
@@ -208,6 +225,42 @@ const AddContribution = ({
             />
           )}
         />
+        <div className={classes.imageControl}>
+          <label>Image with Name, ID and Kill Points</label>
+          {!killPointScreenshot && (
+            <>
+              <span>Sample Image</span>
+              <img
+                src={require('../assets/images/kill-points.jpg')}
+                alt="Name, ID and Kill Points"
+              />
+            </>
+          )}
+          <ImageUpload
+            userId={user.id}
+            type="kill-points"
+            image={killPointScreenshot}
+            setImage={setKillPointScreenshot}
+          />
+        </div>
+        <div className={classes.imageControl}>
+          <label>Killed or severely wounded units from other kingdoms</label>
+          {!otherKingdomKillsScreenshot && (
+            <>
+              <span>Sample Image</span>
+              <img
+                src={require('../assets/images/other-kingdom-kills.jpg')}
+                alt="Killed or severely wounded units from other kingdoms"
+              />
+            </>
+          )}
+          <ImageUpload
+            userId={user.id}
+            type="other-kingdom-killed-troops"
+            image={otherKingdomKillsScreenshot}
+            setImage={setOtherKingdomKillsScreenshot}
+          />
+        </div>
         <Button
           style={{ width: '100%' }}
           variant="contained"
