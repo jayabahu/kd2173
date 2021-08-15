@@ -16,9 +16,9 @@ import { Edit, Add } from '@material-ui/icons';
 
 import ModifyProfile from './ModifyProfile';
 import AddContribution from './AddContribution';
+import SetupProfile from './SetupProfile';
 
 import { MODAL_TYPE } from '../constants';
-import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -194,10 +194,11 @@ const Contributions = ({ user }) => {
         );
       } else {
         return (
-          <Alert severity="error">
-            Unfortunately you have not added pre-kvk data in this account.
-            Please talk to your alliance officers.
-          </Alert>
+          <SetupProfile
+            user={user}
+            setContribution={setContribution}
+            setActiveModal={setActiveModal}
+          />
         );
       }
   }
