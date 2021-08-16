@@ -92,10 +92,6 @@ const AddContribution = ({ user, setContribution, setActiveModal }) => {
     total_kill_points_in_end,
     dead_count_in_end,
   }) => {
-    if (!killPointScreenshot || !otherKingdomKillsScreenshot) {
-      setAlert({ severity: 'error', text: 'Screenshots are required.' });
-      return;
-    }
     setIsSubmitting(true);
     let { data, error } = await supabase
       .from('kvk2_contribution')
