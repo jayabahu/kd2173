@@ -1,0 +1,118 @@
+import React, { useRef, useEffect } from 'react';
+import { useLocation, Switch } from 'react-router-dom';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { initializeApp } from "firebase/app";
+import { getAnalytics, logEvent } from "firebase/analytics";
+
+import AppRoute from './utils/AppRoute';
+import ScrollReveal from './utils/ScrollReveal';
+
+// Layouts
+import LayoutDefault from './layouts/LayoutDefault';
+
+// Views
+import Home from './views/Home';
+import Story from './views/Story';
+import Dashboard from './views/Dashboard';
+// import ForgotPassword from './views/ForgotPassword';
+// import ResetPassword from './views/ResetPassword';
+import Alliances from './views/Alliances';
+import Rules from './views/Rules';
+import Newsletters from './views/Newsletters';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAdDykVklW5HXfJRZ6OLLUPuVByq3lId9k",
+  authDomain: "kd2173-7f4dd.firebaseapp.com",
+  projectId: "kd2173-7f4dd",
+  storageBucket: "kd2173-7f4dd.appspot.com",
+  messagingSenderId: "613683226424",
+  appId: "1:613683226424:web:4c4bd684ee5edb0a9b43cd",
+  measurementId: "G-V6QHH2WSL7"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+const trackPage = (page) => {
+  logEvent(analytics, 'screen_view', {
+    firebase_screen: page,
+    firebase_screen_class: page
+  });
+};
+
+const App = () => {
+  const childRef = useRef();
+  let location = useLocation();
+
+  useEffect(() => {
+    const page = location.pathname;
+    document.body.classList.add('is-loaded');
+    childRef.current.init();
+    trackPage(page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
+
+  const theme = createMuiTheme({
+    palette: {
+      type: 'dark',
+    },
+  });
+
+  return (
+    <ThemeProvider theme={theme}>
+      <ScrollReveal
+        ref={childRef}
+        children={() => (
+          <Switch>
+            <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
+            <AppRoute
+              exact
+              path="/our-story"
+              component={Story}
+              layout={LayoutDefault}
+            />
+            <AppRoute
+              exact
+              path="/dashboard"
+              component={Dashboard}
+              layout={LayoutDefault}
+            />
+            {/*<AppRoute*/}
+            {/*  exact*/}
+            {/*  path="/forgot-password"*/}
+            {/*  component={ForgotPassword}*/}
+            {/*  layout={LayoutDefault}*/}
+            {/*/>*/}
+            {/*<AppRoute*/}
+            {/*  exact*/}
+            {/*  path="/reset-password"*/}
+            {/*  component={ResetPassword}*/}
+            {/*  layout={LayoutDefault}*/}
+            {/*/>*/}
+            <AppRoute
+              exact
+              path="/alliances"
+              component={Alliances}
+              layout={LayoutDefault}
+            />
+            <AppRoute
+              exact
+              path="/rules"
+              component={Rules}
+              layout={LayoutDefault}
+            />
+            <AppRoute
+              exact
+              path="/newsletters"
+              component={Newsletters}
+              layout={LayoutDefault}
+            />
+          </Switch>
+        )}
+      />
+    </ThemeProvider>
+  );
+};
+
+export default App;
